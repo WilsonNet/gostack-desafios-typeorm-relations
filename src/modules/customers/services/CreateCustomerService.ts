@@ -4,6 +4,7 @@ import AppError from '@shared/errors/AppError';
 
 import Customer from '../infra/typeorm/entities/Customer';
 import ICustomersRepository from '../repositories/ICustomersRepository';
+import RepositoryNames from '@shared/container/RepositoryNames';
 
 interface IRequest {
   name: string;
@@ -12,7 +13,10 @@ interface IRequest {
 
 @injectable()
 class CreateCustomerService {
-  constructor(private customersRepository: ICustomersRepository) {}
+  constructor(
+    @inject(RepositoryNames.CUSTOMERS_REPOSITORY)
+    private customersRepository: ICustomersRepository,
+  ) {}
 
   public async execute({ name, email }: IRequest): Promise<Customer> {
     // TODO

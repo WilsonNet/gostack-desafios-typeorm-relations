@@ -8,5 +8,11 @@ import ProductsRepository from '@modules/products/infra/typeorm/repositories/Pro
 
 import IOrdersRepository from '@modules/orders/repositories/IOrdersRepository';
 import OrdersRepository from '@modules/orders/infra/typeorm/repositories/OrdersRepository';
+import RepositoryNames from './RepositoryNames';
 
 // TODO
+
+container.registerSingleton<ICustomersRepository>(
+  RepositoryNames.CUSTOMER_REPOSITORY,
+  CustomersRepository,
+);
