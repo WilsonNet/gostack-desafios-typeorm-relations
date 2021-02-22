@@ -25,7 +25,7 @@ export default class CreateUserTable1614031080586
             type: 'varchar',
           },
           {
-            name: 'updated_at',
+            name: 'created_at',
             type: 'timestamp',
             default: 'now()',
           },
