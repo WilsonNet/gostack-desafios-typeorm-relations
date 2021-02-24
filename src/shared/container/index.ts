@@ -16,3 +16,13 @@ container.registerSingleton<ICustomersRepository>(
   RepositoryNames.CUSTOMERS_REPOSITORY,
   CustomersRepository,
 );
+
+container.registerSingleton<IProductsRepository>(
+  RepositoryNames.PRODUCTS_REPOSITORY,
+  ProductsRepository,
+);
+
+container.registerSingleton<IOrdersRepository>(
+  RepositoryNames.ORDERS_REPOSITORY,
+  OrdersRepository,
+);
