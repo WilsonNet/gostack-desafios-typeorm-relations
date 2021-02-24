@@ -27,6 +27,10 @@ export default class CreateProductsTable1614135474237
             scale: 2,
           },
           {
+            name: 'quantity',
+            type: 'integer',
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',
