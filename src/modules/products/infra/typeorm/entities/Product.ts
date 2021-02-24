@@ -8,7 +8,6 @@ import {
 } from 'typeorm';
 
 import OrdersProducts from '@modules/orders/infra/typeorm/entities/OrdersProducts';
-import Order from '@modules/orders/infra/typeorm/entities/Order';
 
 @Entity('products')
 class Product {
@@ -24,7 +23,9 @@ class Product {
   @Column()
   quantity: number;
 
-  @OneToMany(() => OrdersProducts, orderProducts => orderProducts.product)
+  @OneToMany(() => OrdersProducts, orderProducts => orderProducts.product, {
+    cascade: ['insert'],
+  })
   order_products: OrdersProducts[];
 
   @CreateDateColumn()
