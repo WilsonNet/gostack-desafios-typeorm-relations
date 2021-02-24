@@ -1,5 +1,5 @@
 const RepositoryNames = {
-  CUSTOMERS_REPOSITORY: 'CUSTOMERS_REPOSITORY',
+  CUSTOMERS_REPOSITORY: 'CUSTOMERSREPOSITORY',
 };
 
 export default RepositoryNames;

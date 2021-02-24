@@ -13,6 +13,6 @@ import RepositoryNames from './RepositoryNames';
 // TODO
 
 container.registerSingleton<ICustomersRepository>(
-  RepositoryNames.CUSTOMER_REPOSITORY,
+  RepositoryNames.CUSTOMERS_REPOSITORY,
   CustomersRepository,
 );
