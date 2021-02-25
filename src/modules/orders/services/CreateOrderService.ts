@@ -6,6 +6,7 @@ import IProductsRepository from '@modules/products/repositories/IProductsReposit
 import ICustomersRepository from '@modules/customers/repositories/ICustomersRepository';
 import Order from '../infra/typeorm/entities/Order';
 import IOrdersRepository from '../repositories/IOrdersRepository';
+import RepositoryNames from '@shared/container/RepositoryNames';
 
 interface IProduct {
   id: string;
@@ -20,8 +21,11 @@ interface IRequest {
 @injectable()
 class CreateOrderService {
   constructor(
+    @inject(RepositoryNames.ORDERS_REPOSITORY)
     private ordersRepository: IOrdersRepository,
+    @inject(RepositoryNames.PRODUCTS_REPOSITORY)
     private productsRepository: IProductsRepository,
+    @inject(RepositoryNames.CUSTOMERS_REPOSITORY)
     private customersRepository: ICustomersRepository,
   ) {}
 
