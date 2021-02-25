@@ -4,9 +4,9 @@ import AppError from '@shared/errors/AppError';
 
 import IProductsRepository from '@modules/products/repositories/IProductsRepository';
 import ICustomersRepository from '@modules/customers/repositories/ICustomersRepository';
+import RepositoryNames from '@shared/container/RepositoryNames';
 import Order from '../infra/typeorm/entities/Order';
 import IOrdersRepository from '../repositories/IOrdersRepository';
-import RepositoryNames from '@shared/container/RepositoryNames';
 
 interface IProduct {
   id: string;
@@ -40,7 +40,7 @@ class CreateOrderService {
       products,
     );
 
-    if (!existingProducts) {
+    if (existingProducts.length <= 0) {
       throw new AppError('Could not find any products with the given ids');
     }
 
@@ -52,7 +52,7 @@ class CreateOrderService {
 
     if (checkInexistingProducts.length > 0) {
       throw new AppError(
-        `Could not find product ${checkInexistingProducts[0]}`,
+        `Could not find product ${checkInexistingProducts[0].id}`,
       );
     }
 
@@ -62,9 +62,9 @@ class CreateOrderService {
         product.quantity,
     );
 
-    if (findProductsWithNoQuantityAvaiable) {
+    if (findProductsWithNoQuantityAvaiable.length > 0) {
       throw new AppError(
-        `The quantity ${findProductsWithNoQuantityAvaiable} is not validy`,
+        `The quantity ${findProductsWithNoQuantityAvaiable[0]} is not validy`,
       );
     }
 
