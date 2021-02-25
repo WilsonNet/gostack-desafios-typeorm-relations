@@ -30,7 +30,66 @@ class CreateOrderService {
   ) {}
 
   public async execute({ customer_id, products }: IRequest): Promise<Order> {
-    // TODO
+    const customerExists = await this.customersRepository.findById(customer_id);
+
+    if (!customerExists) {
+      throw new AppError('Could not find any customer with this ID');
+    }
+
+    const existingProducts = await this.productsRepository.findAllById(
+      products,
+    );
+
+    if (!existingProducts) {
+      throw new AppError('Could not find any products with the given ids');
+    }
+
+    const existingProductsId = existingProducts.map(product => product.id);
+
+    const checkInexistingProducts = products.filter(
+      product => !existingProductsId.includes(product.id),
+    );
+
+    if (checkInexistingProducts.length > 0) {
+      throw new AppError(
+        `Could not find product ${checkInexistingProducts[0]}`,
+      );
+    }
+
+    const findProductsWithNoQuantityAvaiable = products.filter(
+      product =>
+        existingProducts.filter(p => p.id === product.id)[0].quantity <
+        product.quantity,
+    );
+
+    if (findProductsWithNoQuantityAvaiable) {
+      throw new AppError(
+        `The quantity ${findProductsWithNoQuantityAvaiable} is not validy`,
+      );
+    }
+
+    const serializedProducts = products.map(product => ({
+      product_id: product.id,
+      quantity: product.quantity,
+      price: existingProducts.filter(p => p.id === product.id)[0].price,
+    }));
+
+    const order = await this.ordersRepository.create({
+      customer: customerExists,
+      products: serializedProducts,
+    });
+
+    const { order_products } = order;
+    const orderedProductsQuantity = order_products.map(product => ({
+      id: product.product_id,
+      quantity:
+        existingProducts.filter(p => p.id === product.product_id)[0].quantity -
+        product.quantity,
+    }));
+
+    await this.productsRepository.updateQuantity(orderedProductsQuantity);
+
+    return order;
   }
 }
 
